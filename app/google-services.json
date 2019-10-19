@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "142733672376",
+    "firebase_url": "https://aprendiendowebsercicesniv1.firebaseio.com",
+    "project_id": "aprendiendowebsercicesniv1",
+    "storage_bucket": "aprendiendowebsercicesniv1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142733672376:android:cf6dcae41cbffc1501594d",
+        "android_client_info": {
+          "package_name": "com.example.retrofit2usuario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142733672376-okj6gnoqqeu80jl6e4cjo7p63uht5r84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzPNFSem3uFw4C_59UAZJAlQrqBwUMWCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142733672376-okj6gnoqqeu80jl6e4cjo7p63uht5r84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

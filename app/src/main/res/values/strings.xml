@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Usuario</string>
+    <string name="sing_up">Registro</string>
+    <string name="name">Nombre</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Password</string>
+
+    <string name="btnSing">Registro</string>
+    <string name="have_an_account">¿Ya tienes una cuenta?</string>
+    <string name="have_not_an_account">¿No tienes una cuenta? Registrate</string>
+    <string name="name_error">Error nombre vacio</string>
+    <string name="name_error_no_update">Error mismo nombre</string>
+    <string name="email_error">Error email vacio</string>
+    <string name="email_doesnt_match">Error formato email</string>
+    <string name="email_error_no_update">Error mismo email</string>
+    <string name="password_error">Error Password vacio</string>
+    <string name="password_error_less_than">Passowrd debe tener mas de 4 caracteres</string>
+
+    <string name="update_profile">Actualizar <Profile></Profile></string>
+    <string name="logout">Logout</string>
+    <string name="delete">Borrar Profesor</string>
+    <string name="profile">Profile</string>
+    <string name="sing_in">Login</string>
+    <string name="login">Login</string>
+</resources>
