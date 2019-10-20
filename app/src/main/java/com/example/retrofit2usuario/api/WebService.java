@@ -24,6 +24,7 @@ public class WebService {
                 .baseUrl(BASE_URL)
                 .client(okhttpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
+
                 .build();
     }
     public static  synchronized WebService getInstance(){
