@@ -120,6 +120,16 @@
             android:layout_marginTop="20dp"
             android:text="Lenguajes"
             android:textColor="@color/colorWhite"/>
+        <TextView
+            android:id="@+id/tvBorrarFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvLenguajes"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Borrar Foto"
+            android:textColor="@color/colorWhite"
+            />
 
     </RelativeLayout>
 </ScrollView>

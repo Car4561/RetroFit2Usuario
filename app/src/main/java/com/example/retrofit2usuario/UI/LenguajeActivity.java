@@ -134,11 +134,11 @@ public class LenguajeActivity extends AppCompatActivity {
         lenguaje= new Lenguaje();
         profesorLenguaje =new ProfesorLenguaje();
         String id = txtLenguaje.getText().toString().trim();
-        lenguaje.setId(Long.parseLong(id));
         if(id.isEmpty()){
             txtLenguaje.setError("Error curso vacio");
             return;
         }
+        lenguaje.setId(Long.parseLong(id));
         profesorLenguaje.setLenguaje(lenguaje);
         profesorLenguaje.setProfesor(profesor);
         Call<Void> call = WebService.getInstance().createService(WebServicesApi.class).saveLenguajeProfesor(profesorLenguaje);

@@ -47,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvDelete;
     private TextView tvCurso;
     private TextView tvLenguajes;
+    private TextView tvBorrarFoto;
 
     private Profesor profesor;
     private Bitmap bitmap;
@@ -78,6 +79,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvDelete= findViewById(R.id.tvDelete);
         tvCurso=findViewById(R.id.tvCursos);
         tvLenguajes=findViewById(R.id.tvLenguajes);
+        tvBorrarFoto=findViewById(R.id.tvBorrarFoto);
+
         txtName.setText(profesor.getNombre());
         txtEmail.setText(profesor.getEmail());
 
@@ -128,8 +131,22 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), LenguajeActivity.class));
             }
         });
+        tvBorrarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                borrarFoto();
+            }
+        });
 
     }
+
+    private void borrarFoto() {
+        profesor.setFoto(null);
+        ivProfesor.setImageResource(R.drawable.ic_account_box);
+
+
+    }
+
     private  void obtenerProfesores(){
         Call<List<Profesor>> call = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
         call.enqueue(new Callback<List<Profesor>>() {
