@@ -5,6 +5,7 @@ import com.example.retrofit2usuario.Model.Lenguaje;
 import com.example.retrofit2usuario.Model.Profesor;
 import com.example.retrofit2usuario.Model.ProfesorLenguaje;
 
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,4 +58,6 @@ public interface WebServicesApi {
     @POST("/api/save_lenguaje_profesor")
     Call<Void> saveLenguajeProfesor(@Body ProfesorLenguaje profesorLenguaje);
 
+    @POST("/api/lenguajes_profesor")
+    Call<List<Lenguaje>> getLenguajeProfesor(@Body Profesor profesor);
 }

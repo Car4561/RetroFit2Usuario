@@ -72,7 +72,38 @@ public class LenguajeActivity extends AppCompatActivity {
             }
         });
 
+        btnVerLenguajesProfesor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VerLenguajeProfesor();
+            }
+        });
 
+
+
+    }
+
+    private void VerLenguajeProfesor() {
+        Call<List<Lenguaje>> call = WebService.getInstance().createService(WebServicesApi.class).getLenguajeProfesor(profesor);
+        call.enqueue(new Callback<List<Lenguaje>>() {
+            @Override
+            public void onResponse(Call<List<Lenguaje>> call, Response<List<Lenguaje>> response) {
+                if(response.code()==200) {
+                    for (int i = 0; i < response.body().size(); i++) {
+                        Log.d("TAG1", "Lenguajes del profesor: " + response.body().get(i).getNombre());
+                    }
+                }else if(response.code()==404){
+                    Log.d("TAG1", "No hay Lenguajes");
+                }
+                System.out.println(response.code());
+                }
+
+
+            @Override
+            public void onFailure(Call<List<Lenguaje>> call, Throwable t) {
+
+            }
+        });
 
 
     }
@@ -94,7 +125,6 @@ public class LenguajeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Lenguaje>> call, Throwable t) {
 
-
             }
         });
 
@@ -103,15 +133,35 @@ public class LenguajeActivity extends AppCompatActivity {
     private void AsignarLenguajeProfesor() {
         lenguaje= new Lenguaje();
         profesorLenguaje =new ProfesorLenguaje();
-        String nomb = txtLenguaje.getText().toString().trim();
-        lenguaje.setNombre(nomb);
-        if(nomb.isEmpty()){
+        String id = txtLenguaje.getText().toString().trim();
+        lenguaje.setId(Long.parseLong(id));
+        if(id.isEmpty()){
             txtLenguaje.setError("Error curso vacio");
             return;
         }
         profesorLenguaje.setLenguaje(lenguaje);
         profesorLenguaje.setProfesor(profesor);
-        Call<Void> call = WebService.getInstance().createService(WebServicesApi.class).saveLenguajeProfesor()
+        Call<Void> call = WebService.getInstance().createService(WebServicesApi.class).saveLenguajeProfesor(profesorLenguaje);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code()==201){
+                    Log.d("TAG1","Hemos asociado un lenguaje a un profesor");
+                    Toast.makeText(getApplicationContext(),"Hemos asociado un lenguaje a un profesor",Toast.LENGTH_LONG).show();
+                }else if(response.code()==404){
+                    Log.d("TAG1","No existe el id del curso");
+                    Toast.makeText(getApplicationContext(),"No existe el id del curso",Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+
     }
 
     private void crearLenguaje() {
