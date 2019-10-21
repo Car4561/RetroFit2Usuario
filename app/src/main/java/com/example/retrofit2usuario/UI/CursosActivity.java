@@ -1,6 +1,9 @@
 package com.example.retrofit2usuario.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.retrofit2usuario.Fragments.BlankFragment;
+import com.example.retrofit2usuario.Fragments.CursoFragment;
 import com.example.retrofit2usuario.Model.Curso;
 import com.example.retrofit2usuario.Model.Profesor;
 import com.example.retrofit2usuario.R;
@@ -18,6 +23,7 @@ import com.example.retrofit2usuario.api.WebService;
 import com.example.retrofit2usuario.api.WebServicesApi;
 import com.example.retrofit2usuario.sharedPreferences.SharedPrefManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,12 +37,20 @@ public class CursosActivity extends AppCompatActivity {
     private Button btnVerTodosCursos;
 
     private Profesor profesor;
-    private Curso curso;
+    public Curso curso;
+    public  List<Curso> cursoLista;
+    public  List<Profesor> profesorList;
+    RecyclerView rvCursos;
+
+    int contC=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cursos);
         setUpView();
+
+
+
     }
 
     private void setUpView() {
@@ -95,21 +109,69 @@ public class CursosActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Curso>>() {
             @Override
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
-                if(response.code()==200){
-                    for(int i =0;i<response.body().size();i++) {
-                        Log.d("TAG1", "Nombre del Curso:" + response.body().get(i).getNombre()+" Codigo Profesor: "+response.body().get(i).getProfesorId());
+
+                if (contC % 2== 0) {
+                    if (response.code() == 200) {
+
+                        cursoLista = response.body();
+                        profesorList=new ArrayList<>();
+                        Call<List<Profesor>> call2 = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
+                        call2.enqueue(new Callback<List<Profesor>>() {
+                            @Override
+                            public void onResponse(Call<List<Profesor>> call, Response<List<Profesor>> response) {
+
+                                FragmentManager fm = getSupportFragmentManager();
+                                FragmentTransaction transaction = fm.beginTransaction();
+                                for(int i=0;i<cursoLista.size();i++) {
+                                    for (int j = 0; j < response.body().size(); j++) {
+                                        if (response.body().get(j).getId() == cursoLista.get(i).getProfesorId()) {
+                                            profesorList.add(response.body().get(j));
+                                            System.out.println("Entro");
+
+                                        }
+                                    }
+                                }
+
+                                System.out.println(profesorList);
+                                CursoFragment bf = new CursoFragment(cursoLista,profesorList);
+                                transaction.add(R.id.contenedor, bf);
+                                transaction.commit();
+
+                            }
+
+
+
+                            @Override
+                            public void onFailure(Call<List<Profesor>> call, Throwable t) {
+
+                            }
+                        });
+
+                        for (int i = 0; i < response.body().size(); i++) {
+                            Log.d("TAG1", "Nombre del Curso:" + response.body().get(i).getNombre() + " Codigo Profesor: " + response.body().get(i).getProfesorId());
+
+                        }
+                    } else if (response.code() == 404) {
+                            Log.d("TAG1", "No existen cursos");
+                            Toast.makeText(getApplicationContext(), "No existen cursos", Toast.LENGTH_LONG);
                     }
-                }else if (response.code()==404){
-                    Log.d("TAG1","No existen cursos");
+                    }
+                else{
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction transaction1 = fm.beginTransaction();
+                    BlankFragment bf = new BlankFragment();
+                    transaction1.replace(R.id.contenedor,bf);
+                    transaction1.commit();
+
                 }
-            }
+                contC++;
+             }
 
             @Override
             public void onFailure(Call<List<Curso>> call, Throwable t) {
 
             }
         });
-
     }
 
     private void crearCurso() {
