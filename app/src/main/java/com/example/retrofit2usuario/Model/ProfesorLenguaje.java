@@ -17,7 +17,9 @@ public class ProfesorLenguaje {
     }
 
     public void setLenguaje(Lenguaje lenguaje) {
+
         this.lenguaje = lenguaje;
+
     }
 
     

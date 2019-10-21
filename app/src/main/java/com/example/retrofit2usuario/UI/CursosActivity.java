@@ -1,6 +1,7 @@
 package com.example.retrofit2usuario.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +44,8 @@ public class CursosActivity extends AppCompatActivity {
     RecyclerView rvCursos;
 
     int contC=2;
+    int contCp=2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,20 +85,49 @@ public class CursosActivity extends AppCompatActivity {
     }
 
     private void verCursosporProfesor() {
-
+        BlankFragment bk = new BlankFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,bk).commit();
         Call<List<Curso>> call = WebService.getInstance().createService(WebServicesApi.class).getCursosProfesor(profesor);
         call.enqueue(new Callback<List<Curso>>() {
             @Override
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
-                if(response.code()==200){
-                    for(int i =0;i<response.body().size();i++) {
-                        Log.d("TAG1", "Nombre del Curso:" + response.body().get(i).getNombre()+" Codigo Profesor: "+response.body().get(i).getProfesorId());
-                    }
-                }else if (response.code()==404){
-                    Log.d("TAG1","No existen cursos");
-                }
-            }
+                if (contCp % 2 == 0 || contC%2!=0 ) {
+                    if (response.code() == 200) {
+                        cursoLista = response.body();
+                        Call<List<Profesor>> call2 = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
+                        call2.enqueue(new Callback<List<Profesor>>() {
+                            @Override
+                            public void onResponse(Call<List<Profesor>> call, Response<List<Profesor>> response) {
+                                FragmentManager fm = getSupportFragmentManager();
+                                FragmentTransaction transaction = fm.beginTransaction();
+                                profesorList = response.body();
+                                System.out.println(profesorList);
+                                CursoFragment cf = new CursoFragment(cursoLista, profesorList);
+                                transaction.add(R.id.contenedor, cf);
+                                transaction.commit();
 
+                            }
+
+
+                            @Override
+                            public void onFailure(Call<List<Profesor>> call, Throwable t) {
+
+                            }
+                        });
+                        for (int i = 0; i < response.body().size(); i++) {
+                            Log.d("TAG1", "Nombre del Curso:" + response.body().get(i).getNombre() + " Codigo Profesor: " + response.body().get(i).getProfesorId());
+                        }
+
+                    } else if (response.code() == 404) {
+                        Log.d("TAG1", "No existen cursos");
+                    }
+                }else{
+                    BlankFragment bk= new BlankFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,bk).commit();
+                }
+                contCp++;
+                contC+=2;
+            }
             @Override
             public void onFailure(Call<List<Curso>> call, Throwable t) {
 
@@ -105,12 +137,15 @@ public class CursosActivity extends AppCompatActivity {
     }
 
     private void verTodosCursos() {
+
+        BlankFragment bk = new BlankFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,bk).commit();
         Call<List<Curso>> call = WebService.getInstance().createService(WebServicesApi.class).getCursos();
         call.enqueue(new Callback<List<Curso>>() {
             @Override
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
 
-                if (contC % 2== 0) {
+                if (contC % 2 == 0 || contCp%2!=0) {
                     if (response.code() == 200) {
 
                         cursoLista = response.body();
@@ -133,8 +168,8 @@ public class CursosActivity extends AppCompatActivity {
                                 }
 
                                 System.out.println(profesorList);
-                                CursoFragment bf = new CursoFragment(cursoLista,profesorList);
-                                transaction.add(R.id.contenedor, bf);
+                                CursoFragment cf = new CursoFragment(cursoLista,profesorList);
+                                transaction.add(R.id.contenedor, cf);
                                 transaction.commit();
 
                             }
@@ -165,6 +200,7 @@ public class CursosActivity extends AppCompatActivity {
 
                 }
                 contC++;
+                contCp+=2;
              }
 
             @Override

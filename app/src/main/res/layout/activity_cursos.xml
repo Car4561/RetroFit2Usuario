@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/gradient_dt"
-                android:text="Crear_Curso"
+                android:text="Crear Curso"
                 android:textColor="@color/colorWhite" />
 
         </LinearLayout>
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/gradient_dt"
-        android:text="Ver Curso de Este Profesor"
+        android:text="Ver Cursos de Este Profesor"
         android:textColor="@color/colorWhite" />
 
     <Button
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/gradient_dt"
-        android:text="Ver Curso Todos Los Cursos"
+        android:text="Ver Todos Los Cursos"
         android:textColor="@color/colorWhite" />
 
 </RelativeLayout>

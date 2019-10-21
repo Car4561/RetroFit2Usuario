@@ -20,13 +20,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RVAdapter extends RecyclerView.Adapter<CursoViewHolder> {
+public class RVAdapterCursos extends RecyclerView.Adapter<CursoViewHolder> {
 
     List<Curso> cursoLista;
     List<Profesor> profesorLista;
     List<Profesor> profesorLista2;
     Profesor profesor;
-     public RVAdapter(List<Curso> curso,List<Profesor> profesor){
+     public RVAdapterCursos(List<Curso> curso, List<Profesor> profesor){
          this.profesorLista = profesor;
 
          this.cursoLista=curso;
@@ -41,8 +41,9 @@ public class RVAdapter extends RecyclerView.Adapter<CursoViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CursoViewHolder holder, int position) {
-      holder.tvCurso.setText(cursoLista.get(position).getNombre());
-      holder.tvProfesor.setText(profesorLista.get(position).getNombre());
+            holder.tvCurso.setText(cursoLista.get(position).getNombre());
+            holder.tvProfesor.setText(profesorLista.get(position).getNombre());
+
     }
 
     @Override
