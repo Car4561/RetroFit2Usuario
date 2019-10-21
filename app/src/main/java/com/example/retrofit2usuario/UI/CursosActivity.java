@@ -103,7 +103,15 @@ public class CursosActivity extends AppCompatActivity {
                                 FragmentManager fm = getSupportFragmentManager();
                                 FragmentTransaction transaction = fm.beginTransaction();
                                 profesorList = response.body();
-                                System.out.println(profesorList);
+                                for(int i=0;i<cursoLista.size();i++) {
+                                    for (int j = 0; j < response.body().size(); j++) {
+                                        if (response.body().get(j).getId() == cursoLista.get(i).getProfesorId()) {
+                                            profesorList.add(response.body().get(j));
+                                            System.out.println("Entro");
+
+                                        }
+                                    }
+                                }
                                 CursoFragment cf = new CursoFragment(cursoLista, profesorList);
                                 transaction.add(R.id.contenedor, cf);
                                 transaction.commit();
