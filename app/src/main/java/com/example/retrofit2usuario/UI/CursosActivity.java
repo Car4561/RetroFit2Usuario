@@ -92,6 +92,8 @@ public class CursosActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
                 if (contCp % 2 == 0 || contC%2!=0 ) {
+                    contC=2;
+                    contCp=2;
                     if (response.code() == 200) {
                         cursoLista = response.body();
                         Call<List<Profesor>> call2 = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
@@ -146,6 +148,8 @@ public class CursosActivity extends AppCompatActivity {
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
 
                 if (contC % 2 == 0 || contCp%2!=0) {
+                    contC=2;
+                    contCp=2;
                     if (response.code() == 200) {
 
                         cursoLista = response.body();
