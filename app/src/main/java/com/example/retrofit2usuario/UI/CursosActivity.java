@@ -41,7 +41,6 @@ public class CursosActivity extends AppCompatActivity {
     public Curso curso;
     public  List<Curso> cursoLista;
     public  List<Profesor> profesorList;
-    RecyclerView rvCursos;
 
     int contC=2;
     int contCp=2;
