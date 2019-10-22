@@ -95,13 +95,13 @@ public class CursosActivity extends AppCompatActivity {
                     contCp=2;
                     if (response.code() == 200) {
                         cursoLista = response.body();
+                        profesorList=new ArrayList();
                         Call<List<Profesor>> call2 = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
                         call2.enqueue(new Callback<List<Profesor>>() {
                             @Override
                             public void onResponse(Call<List<Profesor>> call, Response<List<Profesor>> response) {
                                 FragmentManager fm = getSupportFragmentManager();
                                 FragmentTransaction transaction = fm.beginTransaction();
-                                profesorList = response.body();
                                 for(int i=0;i<cursoLista.size();i++) {
                                     for (int j = 0; j < response.body().size(); j++) {
                                         if (response.body().get(j).getId() == cursoLista.get(i).getProfesorId()) {
