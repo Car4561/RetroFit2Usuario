@@ -91,9 +91,9 @@ public class CursosActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
                 if (contCp % 2 == 0 || contC%2!=0 ) {
-                    contC=2;
-                    contCp=2;
                     if (response.code() == 200) {
+                        contC=2;
+                        contCp=2;
                         cursoLista = response.body();
                         profesorList=new ArrayList();
                         Call<List<Profesor>> call2 = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
@@ -111,7 +111,9 @@ public class CursosActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
-                                CursoFragment cf = new CursoFragment(cursoLista, profesorList);
+                                BlankFragment bk = new BlankFragment();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,bk).commit();
+                                CursoFragment cf = new CursoFragment(cursoLista, profesorList,null);
                                 transaction.add(R.id.contenedor, cf);
                                 transaction.commit();
 
@@ -155,10 +157,10 @@ public class CursosActivity extends AppCompatActivity {
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
 
                 if (contC % 2 == 0 || contCp%2!=0) {
-                    contC=2;
-                    contCp=2;
-                    if (response.code() == 200) {
 
+                    if (response.code() == 200) {
+                        contC=2;
+                        contCp=2;
                         cursoLista = response.body();
                         profesorList=new ArrayList<>();
                         Call<List<Profesor>> call2 = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
@@ -173,13 +175,13 @@ public class CursosActivity extends AppCompatActivity {
                                         if (response.body().get(j).getId() == cursoLista.get(i).getProfesorId()) {
                                             profesorList.add(response.body().get(j));
                                             System.out.println("Entro");
-
                                         }
                                     }
                                 }
-
+                                BlankFragment bk = new BlankFragment();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,bk).commit();
                                 System.out.println(profesorList);
-                                CursoFragment cf = new CursoFragment(cursoLista,profesorList);
+                                CursoFragment cf = new CursoFragment(cursoLista,profesorList,null);
                                 transaction.add(R.id.contenedor, cf);
                                 transaction.commit();
 

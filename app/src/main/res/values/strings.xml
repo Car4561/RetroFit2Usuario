@@ -24,6 +24,7 @@
     <string name="login">Login</string>
     <string name="nombCurso">Curso :</string>
     <string name="nombProfesor">Profesor:</string>
+    <string name="lenguaje">Lenguaje:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
