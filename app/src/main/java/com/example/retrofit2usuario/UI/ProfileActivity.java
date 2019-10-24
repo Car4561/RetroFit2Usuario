@@ -2,9 +2,11 @@ package com.example.retrofit2usuario.UI;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,16 +17,15 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.retrofit2usuario.Model.Lenguaje;
+import com.example.retrofit2usuario.Dialogs.DialogVisualizar;
+import com.example.retrofit2usuario.Dialogs.Instance1;
 import com.example.retrofit2usuario.Model.Profesor;
 import com.example.retrofit2usuario.R;
 import com.example.retrofit2usuario.api.WebService;
@@ -50,12 +51,14 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvCurso;
     private TextView tvLenguajes;
     private TextView tvBorrarFoto;
+    private TextView tvVerProfesores;
 
     private Profesor profesor;
     private Bitmap bitmap;
     Context context=this;
     Activity activity= this;
     private  static  final int IMG_REQUEST =4561;
+    private int cont=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvCurso=findViewById(R.id.tvCursos);
         tvLenguajes=findViewById(R.id.tvLenguajes);
         tvBorrarFoto=findViewById(R.id.tvBorrarFoto);
+        tvVerProfesores = findViewById(R.id.tvVerProfesores);
 
         txtName.setText(profesor.getNombre());
         txtEmail.setText(profesor.getEmail());
@@ -123,8 +127,9 @@ public class ProfileActivity extends AppCompatActivity {
         tvCurso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 startActivity(new Intent(getApplicationContext(), CursosActivity.class));
-                 obtenerProfesores();
+
+                startActivity(new Intent(getApplicationContext(), CursosActivity.class));
+
             }
         });
         tvLenguajes.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +145,15 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        tvVerProfesores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cont= Instance1.getInstance().getCont();
+                System.out.println(cont);
+                obtenerProfesores();
+            }
+        });
+
 
     }
 
@@ -150,16 +164,31 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private  void obtenerProfesores(){
+    public   void obtenerProfesores(){
         Call<List<Profesor>> call = WebService.getInstance().createService(WebServicesApi.class).getProfesor();
         call.enqueue(new Callback<List<Profesor>>() {
             @Override
             public void onResponse(Call<List<Profesor>> call, Response<List<Profesor>> response) {
-                if(response.code()==200){
-                    for(int i=0;i<response.body().size();i++){
-                        Log.d("TAG1","Nombre:"+response.body().get(i).getNombre());
+                if(cont==0) {
+                    cont++;
+                    Instance1.getInstance().setCont(cont);
+                    if (response.code() == 200) {
+                        String[] datos = new String[(response.body().size()) - 1];
+                        for (int i = 0; i < response.body().size() - 1; i++) {
+                            Log.d("TAG1", "Nombre:" + response.body().get(i).getNombre());
+                            if (response.body().get(i).getId() != 20) {
+                                datos[i] = "Profesor: " + response.body().get(i).getNombre();
+                            } else {
+                                datos[i] = "Profesor: " + response.body().get(i + 1).getNombre();
+                                datos[i + 1] = "Profesor: " + response.body().get(i + 2).getNombre();
+                                i++;
+                            }
+                        }
 
-                    }
+                        DialogVisualizar dv = new DialogVisualizar(datos);
+                        dv.show(getSupportFragmentManager(), "Seleccion");
+                      }
+
                 }else if(response.code()==404){
                     Log.d("TAG1","No hay profesores guardados");
                 }else{
@@ -168,6 +197,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
 
             }
+
 
             @Override
             public void onFailure(Call<List<Profesor>> call, Throwable t) {

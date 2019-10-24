@@ -107,6 +107,8 @@ public class LenguajeActivity extends AppCompatActivity {
                         lenguajeProfeList = response.body();
                         profesorList = new ArrayList<>();
                         profesorList.add(profesor);
+                        BlankFragment bk = new BlankFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,bk).commit();
                         CursoFragment cf = new CursoFragment(null, profesorList, lenguajeProfeList);
                         getSupportFragmentManager().beginTransaction().add(R.id.contenedor, cf).commit();
 
@@ -143,6 +145,8 @@ public class LenguajeActivity extends AppCompatActivity {
                     if (response.code() == 200) {
 
                         lenguajeList = response.body();
+                        BlankFragment bk = new BlankFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,bk).commit();
                         CursoFragment cf = new CursoFragment(null, null, lenguajeList);
                         getSupportFragmentManager().beginTransaction().add(R.id.contenedor, cf).commit();
                         for (int i = 0; i < response.body().size(); i++) {

@@ -18,6 +18,7 @@ public class SharedPrefManager {
      private Context context2;
      private SharedPreferences.Editor editor;
      SharedPreferences sharedPreferences;
+     private int cont;
 
     private SharedPrefManager(Context context){
         this.context = context;

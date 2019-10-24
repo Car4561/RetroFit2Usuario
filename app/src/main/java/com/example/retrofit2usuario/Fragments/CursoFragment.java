@@ -55,7 +55,6 @@ public class CursoFragment extends Fragment {
         }
 
         rvCursos= view.findViewById(R.id.rvCursos);
-
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         rvCursos.setLayoutManager(lm);
 
